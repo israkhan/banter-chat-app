@@ -63,9 +63,6 @@ export default function ChatListItem(props) {
                 ? `${members[0]} & ${members.length - 1} others`
                 : members}
             </Text>
-          </View>
-          <View style={styles.messageWrapper}>
-            <Text style={styles.message}>{props.item.lastMessage}</Text>
             <Text>
               {Date.now() - props.item.timestamp < 86400000
                 ? getTime()
@@ -73,6 +70,9 @@ export default function ChatListItem(props) {
                 ? days[messageDate.getDay()]
                 : getDate()}
             </Text>
+          </View>
+          <View style={styles.messageWrapper}>
+            <Text style={styles.message}>{props.item.lastMessage}</Text>
           </View>
         </View>
       </View>
@@ -104,9 +104,12 @@ const styles = StyleSheet.create({
   },
   detailsWrapper: {
     marginLeft: 10,
+    width: '80%',
   },
   chatNameWrapper: {
     marginLeft: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   messageWrapper: {
     flex: 1,
