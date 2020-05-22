@@ -12,6 +12,32 @@ export default function ChatListItem(props) {
   members = memberNameHelper(Object.values(members))
   const avatarName = members[0]
 
+  const messageDate = new Date(props.item.timestamp)
+
+  const days = {
+    0: 'Sunday',
+    1: 'Monday',
+    2: 'Tuesday',
+    3: 'Wednesday',
+    4: 'Thursday',
+    5: 'Friday',
+    6: 'Saturday',
+  }
+
+  const getTime = () => {
+    const hours =
+      messageDate.getHours() > 12
+        ? messageDate.getHours() - 12
+        : messageDate.getHours()
+    const minutes = messageDate.getMinutes()
+
+    return `${hours}:${minutes} ${messageDate.getHours() > 12 ? 'PM' : 'AM'}`
+  }
+
+  const getDate = () => {
+    return `${messageDate.getMonth()}/${messageDate.getDate()}/${messageDate.getFullYear()}`
+  }
+
   const goToSingleChat = (chatId) => {
     // set current chatroom in redux
     props.setCurrentChat(chatId)
@@ -40,6 +66,13 @@ export default function ChatListItem(props) {
           </View>
           <View style={styles.messageWrapper}>
             <Text style={styles.message}>{props.item.lastMessage}</Text>
+            <Text>
+              {Date.now() - props.item.timestamp < 86400000
+                ? getTime()
+                : Date.now() - props.item.timestamp < 86400000 * 7
+                ? days[messageDate.getDay()]
+                : getDate()}
+            </Text>
           </View>
         </View>
       </View>
@@ -76,7 +109,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   messageWrapper: {
+    flex: 1,
     marginTop: 5,
     marginLeft: 10,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
 })
