@@ -125,17 +125,59 @@ const defaultChats = {
 const chatsReducer = (state = defaultChats, action) => {
   switch (action.type) {
     case ADD_CHAT:
-      return {...state, chats: [...state.chats, action.chat]}
-    case UPDATE_CHAT:
-      return {
-        ...state,
-        chats: state.chats.map((chat) => {
-          if (chat.id === action.chat.id) {
-            return Object.assign({}, chat, action.chat)
-          }
-          return chat
-        }),
+      // eslint-disable-next-line no-case-declarations
+      let insertIndex = -1
+      for (let i = 0; i < state.chats.length; i++) {
+        if (state.chats[i].timestamp < action.chat.timestamp) {
+          insertIndex = i
+          break
+        }
       }
+      if (insertIndex !== -1) {
+        return {
+          ...state,
+          chats: state.chats
+            .slice(0, insertIndex)
+            .concat(action.chat)
+            .concat(state.chats.slice(insertIndex)),
+        }
+      } else {
+        return {
+          ...state,
+          chats: state.chats.concat(action.chat),
+        }
+      }
+    case UPDATE_CHAT:
+      console.log('UPDATING')
+      if (action.chat.timestamp) {
+        // find chat to be updated
+        let chatToUpdate = state.chats.find((chat) => {
+          chat.id == action.chat.id
+        })
+        // set new timestamp on chat object
+        chatToUpdate.timestamp = action.chat.timestamp
+        // return new state with updated chat as first index in array
+        return {
+          ...state,
+          chats: [
+            chatToUpdate,
+            state.chats.filter((chat) => {
+              return chat.id !== action.chat.id
+            }),
+          ],
+        }
+      } else {
+        return {
+          ...state,
+          chats: state.chats.map((chat) => {
+            if (chat.id === action.chat.id) {
+              return Object.assign({}, chat, action.chat)
+            }
+            return chat
+          }),
+        }
+      }
+
     case SET_CURRENT_CHAT:
       return {
         ...state,

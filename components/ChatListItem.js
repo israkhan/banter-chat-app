@@ -14,6 +14,7 @@ export default function ChatListItem(props) {
 
   const messageDate = new Date(props.item.timestamp)
 
+  // days enumeration
   const days = {
     0: 'Sunday',
     1: 'Monday',
@@ -24,6 +25,7 @@ export default function ChatListItem(props) {
     6: 'Saturday',
   }
 
+  // returns string with time that the last message was received
   const getTime = () => {
     const hours =
       messageDate.getHours() > 12
@@ -34,6 +36,7 @@ export default function ChatListItem(props) {
     return `${hours}:${minutes} ${messageDate.getHours() > 12 ? 'PM' : 'AM'}`
   }
 
+  // returns string with the date that the last message was received
   const getDate = () => {
     return `${messageDate.getMonth()}/${messageDate.getDate()}/${messageDate.getFullYear()}`
   }

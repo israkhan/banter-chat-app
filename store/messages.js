@@ -76,7 +76,7 @@ const addMessage = (message, messageId) => (dispatch, getState) => {
         message.translations[userLanguage] !== message.message
           ? message.detectedSource
           : false
-      dispatch(addMessage(newMessage))
+      dispatch(appendMessage(newMessage))
     } else {
       // translate the original message to the language of the user
       fetch(
@@ -115,7 +115,7 @@ const addMessage = (message, messageId) => (dispatch, getState) => {
               ? getLangValue(data.data.translations[0].detectedSourceLanguage)
               : false
 
-          dispatch(addMessage(newMessage))
+          dispatch(appendMessage(newMessage))
         })
     }
   } else {
