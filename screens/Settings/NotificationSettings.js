@@ -27,7 +27,7 @@ export default class Notification extends React.Component {
         <View>
           <Text style={styles.label}>Push Notifications</Text>
           <ListItem
-            title={'Show Notifications'}
+            title="Show Notifications"
             bottomDivider
             switch={{
               value: this.state.pushNotify,
@@ -38,7 +38,7 @@ export default class Notification extends React.Component {
             containerStyle={styles.listItem}
           />
           <ListItem
-            title={'Sound'}
+            title="Sound"
             bottomDivider
             rightSubtitle={this.state.sound}
             chevron
@@ -47,7 +47,7 @@ export default class Notification extends React.Component {
         </View>
         <View>
           <ListItem
-            title={'Show Preview'}
+            title="Show Preview"
             style={styles.topRow}
             bottomDivider
             switch={{

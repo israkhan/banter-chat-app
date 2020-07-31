@@ -8,7 +8,7 @@ const ChatTab = createMaterialTopTabNavigator()
 const ChatTabNavigator = ({navigation}) => {
   return (
     <ChatTab.Navigator
-      initialRouteName={'All'}
+      initialRouteName="All"
       defaultNavigationOptions={{tabBarVisible: false}}
     >
       <ChatTab.Screen

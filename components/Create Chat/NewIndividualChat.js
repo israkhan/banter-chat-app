@@ -48,7 +48,7 @@ export class NewIndividualChat extends Component {
     return (
       <View style={styles.container}>
         <ListItem
-          title={'New Group'}
+          title="New Group"
           titleStyle={{color: Colors.tintColor}}
           leftIcon={() => <Entypo name="users" size={20} style={styles.icon} />}
           bottomDivider
@@ -56,7 +56,7 @@ export class NewIndividualChat extends Component {
           containerStyle={styles.listItem}
         />
         <ListItem
-          title={'New Contact'}
+          title="New Contact"
           titleStyle={{color: Colors.tintColor}}
           leftIcon={() => (
             <Entypo name="add-user" size={20} style={styles.icon} />
