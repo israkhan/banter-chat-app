@@ -1,23 +1,23 @@
-import * as React from 'react'
-import {StyleSheet} from 'react-native'
-import {ScrollView} from 'react-native-gesture-handler'
-import {putUserName} from '../../store'
-import {Button, ListItem} from 'react-native-elements'
-import {connect} from 'react-redux'
-import {Colors} from '../../constants'
+import * as React from 'react';
+import { StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { putUserName } from '../../store';
+import { Button, ListItem } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { Colors } from '../../constants';
 
 export class ProfileSettings extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       firstName: '',
       lastName: '',
-    }
+    };
   }
 
   componentDidMount() {
-    const [firstName, lastName] = this.props.name.split(' ')
-    this.setState({firstName, lastName})
+    const [firstName, lastName] = this.props.name.split(' ');
+    this.setState({ firstName, lastName });
   }
 
   render() {
@@ -32,7 +32,7 @@ export class ProfileSettings extends React.Component {
           titleStyle={styles.title}
           input={{
             value: this.state.firstName,
-            onChangeText: (firstName) => this.setState({firstName}),
+            onChangeText: (firstName) => this.setState({ firstName }),
           }}
           containerStyle={styles.listItem}
         />
@@ -43,7 +43,7 @@ export class ProfileSettings extends React.Component {
           titleStyle={styles.title}
           input={{
             value: this.state.lastName,
-            onChangeText: (lastName) => this.setState({lastName}),
+            onChangeText: (lastName) => this.setState({ lastName }),
           }}
           containerStyle={styles.listItem}
         />
@@ -51,15 +51,15 @@ export class ProfileSettings extends React.Component {
         <Button
           title="Save"
           onPress={() => {
-            this.props.updateUser(this.state.firstName, this.state.lastName)
-            this.props.navigation.navigate('Settings')
+            this.props.updateUser(this.state.firstName, this.state.lastName);
+            this.props.navigation.navigate('Settings');
           }}
           large
           style={styles.button}
           buttonStyle={styles.buttonBackground}
         />
       </ScrollView>
-    )
+    );
   }
 }
 
@@ -91,14 +91,14 @@ const styles = StyleSheet.create({
   buttonBackground: {
     backgroundColor: Colors.tintColor,
   },
-})
+});
 
 const mapState = (state) => ({
   name: state.user.name,
-})
+});
 
 const mapDispatch = (dispatch) => ({
   updateUser: (f, l) => dispatch(putUserName(f, l)),
-})
+});
 
-export default connect(mapState, mapDispatch)(ProfileSettings)
+export default connect(mapState, mapDispatch)(ProfileSettings);

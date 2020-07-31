@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -7,26 +7,26 @@ import {
   Dimensions,
   Image,
   KeyboardAvoidingView,
-} from 'react-native'
-import {TouchableOpacity} from 'react-native-gesture-handler'
-import {connect} from 'react-redux'
-import {loginWithEP, loginWithGoogle} from '../store/auth'
-import {registerForPushNotificationsAsync} from '../store/user'
-import {Colors} from '../constants'
+} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
+import { loginWithEP, loginWithGoogle } from '../store/auth';
+import { registerForPushNotificationsAsync } from '../store/user';
+import { Colors } from '../constants';
 
 // Google Auth Credits: https://github.com/nathvarun/Expo-Google-Login-Firebase/tree/master
 // including firebase in import: https://stackoverflow.com/questions/39204923/undefined-is-not-an-object-firebase-auth-facebookauthprovider-credential
 
 class LoginScreen extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       email: '',
       password: '',
       loading: false,
       expoPushToken: '',
       notification: {},
-    }
+    };
   }
 
   // handleEmailChange(evt) {
@@ -38,7 +38,7 @@ class LoginScreen extends Component {
   // }
 
   render() {
-    const {email, password} = this.state
+    const { email, password } = this.state;
     return (
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.image}>
@@ -53,7 +53,7 @@ class LoginScreen extends Component {
           value={email}
           placeholder="Email"
           autoCapitalize="none"
-          onChangeText={(email) => this.setState({email})}
+          onChangeText={(email) => this.setState({ email })}
           autoCorrect={false}
         />
         <TextInput
@@ -61,7 +61,7 @@ class LoginScreen extends Component {
           type="password"
           value={password}
           autoCapitalize="none"
-          onChangeText={(password) => this.setState({password})}
+          onChangeText={(password) => this.setState({ password })}
           placeholder="Password"
           autoCorrect={false}
           secureTextEntry={true}
@@ -71,7 +71,7 @@ class LoginScreen extends Component {
           style={styles.button}
           title="Login"
           onPress={() => {
-            this.props.loginWithEmail(email, password)
+            this.props.loginWithEmail(email, password);
             // this.props.requestPushNotification();
           }}
         >
@@ -94,7 +94,7 @@ class LoginScreen extends Component {
           style={styles.GooglePlusStyle}
           activeOpacity={0.5}
           onPress={() => {
-            this.props.loginWithGoogle()
+            this.props.loginWithGoogle();
             // this.props.requestPushNotification();
           }}
         >
@@ -109,17 +109,17 @@ class LoginScreen extends Component {
           style={styles.button}
           title="Sign Up"
           onPress={() => {
-            this.props.navigation.navigate('SignUp')
+            this.props.navigation.navigate('SignUp');
           }}
         >
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
-    )
+    );
   }
 }
 
-const {width: WIDTH} = Dimensions.get('window')
+const { width: WIDTH } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -183,17 +183,17 @@ const styles = StyleSheet.create({
     color: Colors.tintColor,
     paddingLeft: 8,
   },
-})
+});
 
 const mapState = (state) => ({
   user: state.user,
   auth: state.firebase.auth,
-})
+});
 
 const mapDispatch = (dispatch) => ({
   loginWithEmail: (email, password) => dispatch(loginWithEP(email, password)),
   loginWithGoogle: () => dispatch(loginWithGoogle()),
   requestPushNotification: () => dispatch(registerForPushNotificationsAsync()),
-})
+});
 
-export default connect(mapState, mapDispatch)(LoginScreen)
+export default connect(mapState, mapDispatch)(LoginScreen);

@@ -1,17 +1,17 @@
-import React, {Component} from 'react'
-import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
-import {GiftedChat, MessageText} from 'react-native-gifted-chat'
-import {connect} from 'react-redux'
-import {Audio} from 'expo-av'
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { GiftedChat, MessageText } from 'react-native-gifted-chat';
+import { connect } from 'react-redux';
+import { Audio } from 'expo-av';
 
-import Layout from '../constants/Layout'
+import Layout from '../constants/Layout';
 import {
   fetchEarlierMessages,
   fetchMessages,
   postMessage,
   postAudio,
-} from '../store'
-import {db} from '../Firebase'
+} from '../store';
+import { db } from '../Firebase';
 import {
   formatText,
   genUUID,
@@ -20,12 +20,12 @@ import {
   renderTranslation,
   stopRecording,
   recordingActions,
-} from '../utils'
-import {Colors} from '../constants'
+} from '../utils';
+import { Colors } from '../constants';
 
 class SingleChat extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       currentChatId: this.props.currentChat.id || '',
       originalsShown: {},
@@ -43,50 +43,50 @@ class SingleChat extends Component {
       playbackInstanceId: null,
       playbackInstancePosition: null,
       playbackInstanceDuration: null,
-    }
-    this.loadPlaybackInstance = this.loadPlaybackInstance.bind(this)
-    this.updatePlaybackStatus = this.updatePlaybackStatus.bind(this)
-    this.updateSoundStatus = this.updateSoundStatus.bind(this)
-    this.updateRecordingStatus = this.updateRecordingStatus.bind(this)
-    this.handleSendAudio = this.handleSendAudio.bind(this)
-    this.handleSendMessage = this.handleSendMessage.bind(this)
+    };
+    this.loadPlaybackInstance = this.loadPlaybackInstance.bind(this);
+    this.updatePlaybackStatus = this.updatePlaybackStatus.bind(this);
+    this.updateSoundStatus = this.updateSoundStatus.bind(this);
+    this.updateRecordingStatus = this.updateRecordingStatus.bind(this);
+    this.handleSendAudio = this.handleSendAudio.bind(this);
+    this.handleSendMessage = this.handleSendMessage.bind(this);
   }
 
   componentDidMount() {
     // fetch all messages for the current chat (fetchMessages will use the currentChatId in chats reducer to make query)
     this.focusUnsubscribe = this.props.navigation.addListener('focus', () => {
       // fetch messages for current chat when in focus
-      this.props.fetchMessages()
-    })
+      this.props.fetchMessages();
+    });
 
     this.blurUnsubscribe = this.props.navigation.addListener('blur', () => {
       // unsubscribe from firebase listener when chat is not in focus
       if (this.state.currentChatId) {
-        db.ref(`messages/${this.state.currentChatId}`).off('child_added')
+        db.ref(`messages/${this.state.currentChatId}`).off('child_added');
       }
-    })
+    });
     // get permission to access microphone for audio recordings
-    getPermissions(this)
+    getPermissions(this);
   }
 
   componentWillUnmount() {
     // turn off navigation listeners
-    this.focusUnsubscribe()
-    this.blurUnsubscribe()
+    this.focusUnsubscribe();
+    this.blurUnsubscribe();
   }
 
   // custom icons for recording to the left of the message composer
   renderActions(props) {
-    return <View style={styles.inputBar}>{recordingActions(this)}</View>
+    return <View style={styles.inputBar}>{recordingActions(this)}</View>;
   }
 
   // custom text bubble for audio files
   renderMessageAudio(params) {
     // TODO: get isCurrentPlaying to work for all audio files (currently only working for first)
-    const {currentMessage} = params
+    const { currentMessage } = params;
     if (currentMessage.audio) {
-      const isSender = this.props.uid === currentMessage.user._id
-      const text = isSender ? styles.audioTextRight : styles.audioTextLeft
+      const isSender = this.props.uid === currentMessage.user._id;
+      const text = isSender ? styles.audioTextRight : styles.audioTextLeft;
 
       return (
         <View style={styles.messageContainer}>
@@ -101,9 +101,9 @@ class SingleChat extends Component {
             renderTranslation(params, this)}
           <Text style={text}>{currentMessage.translation}</Text>
         </View>
-      )
+      );
     }
-    return null
+    return null;
   }
 
   // custom text bubble for messages w/ translation
@@ -119,22 +119,22 @@ class SingleChat extends Component {
           renderTranslation(params, this)}
         <MessageText {...params} />
       </View>
-    )
+    );
   }
 
   // update state sound status for recording
   updateSoundStatus(status) {
     if (status.didJustFinish) {
-      this.state.sound.setStatusAsync({positionMillis: 0})
+      this.state.sound.setStatusAsync({ positionMillis: 0 });
       this.setState({
         isRecordingPlaying: status.isPlaying,
-      })
+      });
     } else if (status.isLoaded) {
       this.setState({
         isRecordingPlaying: status.isPlaying,
-      })
+      });
     } else if (status.error) {
-        console.log('Error updating sound status: ', status.error)
+        console.log('Error updating sound status: ', status.error);
       }
   }
 
@@ -143,13 +143,13 @@ class SingleChat extends Component {
     if (status.canRecord) {
       this.setState({
         isRecording: status.isRecording,
-      })
+      });
     } else if (status.isDoneRecording) {
       this.setState({
         isRecording: false,
-      })
+      });
       if (!this.state.isLoading) {
-        stopRecording(this)
+        stopRecording(this);
       }
     }
   }
@@ -157,80 +157,80 @@ class SingleChat extends Component {
   // update state on playback
   async updatePlaybackStatus(status) {
     if (status.didJustFinish) {
-      await this.state.playbackInstance.stopAsync()
-      this.loadPlaybackInstance()
+      await this.state.playbackInstance.stopAsync();
+      this.loadPlaybackInstance();
     } else if (status.isLoaded) {
       this.setState({
         playbackInstancePosition: status.positionMillis,
         playbackInstanceDuration: status.durationMillis,
         isAudioPlaying: status.isPlaying,
-      })
+      });
     } else if (status.error) {
-        console.log('Error updating playback status: ', status.error)
+        console.log('Error updating playback status: ', status.error);
       }
   }
 
   // load playback instance
   async loadPlaybackInstance(currMessage) {
-    this.setState({isLoading: true})
+    this.setState({ isLoading: true });
     // if playback instance exists, unload and clear onPlaybackStatusUpdate
     if (this.state.playbackInstance !== null) {
       try {
-        await this.state.playbackInstance.unloadAsync()
-        this.state.playbackInstance.setOnPlaybackStatusUpdate(null)
+        await this.state.playbackInstance.unloadAsync();
+        this.state.playbackInstance.setOnPlaybackStatusUpdate(null);
         this.setState({
           playbackInstancePosition: null,
           playbackInstanceDuration: null,
           playbackInstance: null,
           playbackInstanceId: null,
-        })
+        });
       } catch (err) {
-        console.log('Error unloading playback instance', err)
+        console.log('Error unloading playback instance', err);
       }
     }
     // construct and load new sound instance then play audio
     if (currMessage) {
       try {
-        const {sound} = await Audio.Sound.createAsync(
-          {uri: currMessage.audio},
-          {isLooping: false, progressUpdateIntervalMillis: 50},
+        const { sound } = await Audio.Sound.createAsync(
+          { uri: currMessage.audio },
+          { isLooping: false, progressUpdateIntervalMillis: 50 },
           this.updatePlaybackStatus
-        )
+        );
         this.setState({
           playbackInstance: sound,
           playbackInstanceId: currMessage._id,
-        })
-        this.state.playbackInstance.playAsync()
+        });
+        this.state.playbackInstance.playAsync();
       } catch (err) {
-        console.log('Error loading playback instance', err)
+        console.log('Error loading playback instance', err);
       }
     }
-    this.setState({isLoading: false})
+    this.setState({ isLoading: false });
   }
 
   // dispatch send audio
   async handleSendAudio() {
     // save audio url to constant
-    const audioUrl = this.state.audioUrl
+    const audioUrl = this.state.audioUrl;
     // reset audio url on state
-    this.setState({audioUrl: null})
-    const fileName = `${genUUID()}.wav`
+    this.setState({ audioUrl: null });
+    const fileName = `${genUUID()}.wav`;
     const file = {
       name: fileName,
       type: 'audio/x-wav',
       uri: Platform.OS === 'ios' ? audioUrl : `file://${audioUrl}`,
-    }
-    const text = formatText(this.props)
-    text.messageType = 'audio'
-    this.props.postAudio(file, text)
+    };
+    const text = formatText(this.props);
+    text.messageType = 'audio';
+    this.props.postAudio(file, text);
   }
 
   // dispatch send message
   handleSendMessage(messages) {
-    let text = formatText(this.props)
-    text.message = messages[messages.length - 1].text
-    text.messageType = 'message'
-    this.props.postMessage(text)
+    let text = formatText(this.props);
+    text.message = messages[messages.length - 1].text;
+    text.messageType = 'message';
+    this.props.postMessage(text);
   }
 
   render() {
@@ -256,10 +256,10 @@ class SingleChat extends Component {
           infiniteScroll={false}
           isLoadingEarlier={false}
           onLoadEarlier={() => {
-            this.props.fetchEarlierMessages()
+            this.props.fetchEarlierMessages();
           }}
           renderLoading={() => {
-            return <Text>Loading Messages...</Text>
+            return <Text>Loading Messages...</Text>;
           }}
         />
         {this.state.audioUrl && (
@@ -276,7 +276,7 @@ class SingleChat extends Component {
           </View>
         )}
       </View>
-    )
+    );
   }
 }
 
@@ -285,16 +285,16 @@ const mapState = (state) => ({
   uid: state.firebase.auth.uid,
   displayName: state.user.name,
   currentChat: state.chats.currentChat,
-})
+});
 
 const mapDispatch = (dispatch) => ({
   fetchEarlierMessages: () => dispatch(fetchEarlierMessages()),
   fetchMessages: () => dispatch(fetchMessages()),
   postMessage: (msg) => dispatch(postMessage(msg)),
   postAudio: (file, text) => dispatch(postAudio(file, text)),
-})
+});
 
-export default connect(mapState, mapDispatch)(SingleChat)
+export default connect(mapState, mapDispatch)(SingleChat);
 
 const styles = StyleSheet.create({
   originalMessage: {
@@ -366,4 +366,4 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
-})
+});

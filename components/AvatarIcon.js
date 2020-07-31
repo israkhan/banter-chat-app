@@ -1,7 +1,7 @@
-import UserAvatar from 'react-native-user-avatar'
-import React from 'react'
-import {View} from 'react-native'
-import {Colors} from '../constants'
+import UserAvatar from 'react-native-user-avatar';
+import React from 'react';
+import { View } from 'react-native';
+import { Colors } from '../constants';
 export default function AvatarIcon(props) {
   return (
     <View style={props.containerStyle}>
@@ -14,5 +14,5 @@ export default function AvatarIcon(props) {
         bgColor={props.src ? '#fff' : Colors.borderGray}
       />
     </View>
-  )
+  );
 }

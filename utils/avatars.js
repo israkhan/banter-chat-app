@@ -1,20 +1,20 @@
-import React from 'react'
-import {StyleSheet, View} from 'react-native'
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
-import {AvatarIcon} from '../components'
+import { AvatarIcon } from '../components';
 
 export const ChatListAvatar = (props) => {
-  console.log('PROPS', props)
+  console.log('PROPS', props);
   const avatarContainer =
     props.members.length > 1
       ? styles.groupChatImgContainer
-      : styles.singleChatImgContainer
+      : styles.singleChatImgContainer;
   const chatImg =
-    props.members.length > 1 ? styles.groupChatImg : styles.singleChatImg
+    props.members.length > 1 ? styles.groupChatImg : styles.singleChatImg;
   const chatImgWrapper =
     props.members.length > 1
       ? styles.groupChatImgWrapper
-      : styles.singleChatImgWrapper
+      : styles.singleChatImgWrapper;
 
   return (
     <View style={avatarContainer}>
@@ -39,8 +39,8 @@ export const ChatListAvatar = (props) => {
           />
         )))}
     </View>
-  )
-}
+  );
+};
 
 export const ContactListAvatar = (props) => {
   return (
@@ -51,14 +51,14 @@ export const ContactListAvatar = (props) => {
         <AvatarIcon style={styles.contactImg} name={props.name} />
       )}
     </View>
-  )
-}
+  );
+};
 
 export const SingleChatAvatar = (props) => {
   const avatarContainer =
     props.memberNames.length > 1
       ? styles.groupImgContainer
-      : styles.singleImgContainer
+      : styles.singleImgContainer;
 
   return (
     <View style={avatarContainer}>
@@ -79,8 +79,8 @@ export const SingleChatAvatar = (props) => {
           />
         )))}
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   // Single Chat
@@ -153,4 +153,4 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
-})
+});

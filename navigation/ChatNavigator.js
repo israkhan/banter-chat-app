@@ -1,28 +1,28 @@
 /* eslint-disable react/display-name */
-import * as React from 'react'
-import {createStackNavigator} from '@react-navigation/stack'
-import {SingleChatScreen} from '../screens'
+import * as React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { SingleChatScreen } from '../screens';
 import {
   ChatListHeaderRight,
   SingleChatHeaderLeft,
   SingleChatHeaderCenter,
   NewIndividualChat,
   NewGroupChat,
-} from '../components'
-import ChatTabNavigator from './ChatTabNavigator'
+} from '../components';
+import ChatTabNavigator from './ChatTabNavigator';
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 
-export default function ChatNavigator({navigation, route}) {
+export default function ChatNavigator({ navigation, route }) {
   return (
     <Stack.Navigator
       initialRouteName="Chat"
-      navigationOptions={{tabBarVisible: false}}
+      navigationOptions={{ tabBarVisible: false }}
     >
       <Stack.Screen
         name="Chat"
         component={ChatTabNavigator}
-        options={({navigation}) => ({
+        options={({ navigation }) => ({
           title: 'All Chats',
           headerRight: () => <ChatListHeaderRight navigation={navigation} />,
         })}
@@ -41,9 +41,9 @@ export default function ChatNavigator({navigation, route}) {
               back="Chat"
             />
           ),
-          headerStyle: {height: 130},
+          headerStyle: { height: 130 },
         }}
-        navigationOptions={{tabBarVisible: false}}
+        navigationOptions={{ tabBarVisible: false }}
       />
 
       <Stack.Screen
@@ -62,5 +62,5 @@ export default function ChatNavigator({navigation, route}) {
         }}
       />
     </Stack.Navigator>
-  )
+  );
 }

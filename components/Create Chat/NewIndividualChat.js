@@ -1,27 +1,27 @@
-import React, {Component} from 'react'
-import {StyleSheet, Text, Button, SectionList, View} from 'react-native'
-import {ListItem} from 'react-native-elements'
-import {Entypo} from '@expo/vector-icons'
-import {connect} from 'react-redux'
-import {NavigationActions} from 'react-navigation'
+import React, { Component } from 'react';
+import { StyleSheet, Text, Button, SectionList, View } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { Entypo } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 
-import {createSectionedData} from '../../utils'
-import {fetchCurrentChatId} from '../../store/chats'
-import {Colors} from '../../constants'
+import { createSectionedData } from '../../utils';
+import { fetchCurrentChatId } from '../../store/chats';
+import { Colors } from '../../constants';
 
 export class NewIndividualChat extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       data: [],
-    }
-    this.handleContactSelection = this.handleContactSelection.bind(this)
+    };
+    this.handleContactSelection = this.handleContactSelection.bind(this);
   }
 
   componentDidMount() {
     // Transforming contacts data into correct format for SectionList
-    const data = createSectionedData(this.props.contacts)
-    this.setState({data})
+    const data = createSectionedData(this.props.contacts);
+    this.setState({ data });
 
     // Overriding header buttons
     this.props.navigation.setOptions({
@@ -32,16 +32,16 @@ export class NewIndividualChat extends Component {
           onPress={() => this.props.navigation.navigate('Chat')}
         />
       ),
-    })
+    });
   }
 
   async handleContactSelection(contactId, contactName) {
     // set current chatroom in redux
     await this.props.fetchCurrentChatId(
-      {uid: this.props.uid, userName: this.props.userName},
+      { uid: this.props.uid, userName: this.props.userName },
       this.props.navigation,
-      [{contactId, contactName}]
-    )
+      [{ contactId, contactName }]
+    );
   }
 
   render() {
@@ -49,7 +49,7 @@ export class NewIndividualChat extends Component {
       <View style={styles.container}>
         <ListItem
           title="New Group"
-          titleStyle={{color: Colors.tintColor}}
+          titleStyle={{ color: Colors.tintColor }}
           leftIcon={() => <Entypo name="users" size={20} style={styles.icon} />}
           bottomDivider
           onPress={() => this.props.navigation.navigate('NewGroupChat')}
@@ -57,7 +57,7 @@ export class NewIndividualChat extends Component {
         />
         <ListItem
           title="New Contact"
-          titleStyle={{color: Colors.tintColor}}
+          titleStyle={{ color: Colors.tintColor }}
           leftIcon={() => (
             <Entypo name="add-user" size={20} style={styles.icon} />
           )}
@@ -76,7 +76,7 @@ export class NewIndividualChat extends Component {
 
         <SectionList
           sections={this.state.data}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <ListItem
               title={item.name}
               bottomDivider
@@ -84,14 +84,14 @@ export class NewIndividualChat extends Component {
               containerStyle={styles.listItem}
             />
           )}
-          renderSectionHeader={({section}) => (
+          renderSectionHeader={({ section }) => (
             <Text style={styles.sectionHeader}>{section.title}</Text>
           )}
           keyExtractor={(item, index) => index}
           stickySectionHeadersEnabled
         />
       </View>
-    )
+    );
   }
 }
 
@@ -117,17 +117,17 @@ const styles = StyleSheet.create({
     borderColor: Colors.medGray,
     backgroundColor: '#fff',
   },
-})
+});
 
 const mapState = (state) => ({
   contacts: state.user.contacts,
   uid: state.firebase.auth.uid,
   userName: state.firebase.auth.displayName,
-})
+});
 
 const mapDispatch = (dispatch) => ({
   fetchCurrentChatId: (user, navigation, contacts) =>
     dispatch(fetchCurrentChatId(user, navigation, contacts)),
-})
+});
 
-export default connect(mapState, mapDispatch)(NewIndividualChat)
+export default connect(mapState, mapDispatch)(NewIndividualChat);

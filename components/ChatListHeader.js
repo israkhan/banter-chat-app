@@ -1,6 +1,6 @@
-import React from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
-import {Entypo} from '@expo/vector-icons'
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 
 //TODO: Remove ChatListHeader
 export const ChatListHeader = () => {
@@ -15,8 +15,8 @@ export const ChatListHeader = () => {
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
 export const ChatListHeaderRight = (props) => {
   return (
@@ -27,11 +27,11 @@ export const ChatListHeaderRight = (props) => {
         <Entypo name="new-message" size={20} style={styles.icon} />
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   icon: {
     marginRight: 20,
   },
-})
+});
