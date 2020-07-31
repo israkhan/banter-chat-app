@@ -1,26 +1,26 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import * as React from 'react'
-import {Platform} from 'react-native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as React from 'react';
+import { Platform } from 'react-native';
 
-import {ChatListHeaderRight, TabBarIcon} from '../components'
-import SettingsNavigator from './SettingsNavigator'
-import ChatNavigator from './ChatNavigator'
-import ContactNavigator from './ContactNavigator'
+import { ChatListHeaderRight, TabBarIcon } from '../components';
+import SettingsNavigator from './SettingsNavigator';
+import ChatNavigator from './ChatNavigator';
+import ContactNavigator from './ContactNavigator';
 
-const BottomTab = createBottomTabNavigator()
+const BottomTab = createBottomTabNavigator();
 
 const BottomTabNavigator = (props) => {
   return (
     <BottomTab.Navigator
-      initialRouteName={'Chats'}
-      defaultNavigationOptions={{tabBarVisible: false}}
+      initialRouteName="Chats"
+      defaultNavigationOptions={{ tabBarVisible: false }}
     >
       <BottomTab.Screen
         name="Chats"
         component={ChatNavigator}
-        options={({route}) => ({
+        options={({ route }) => ({
           title: 'Chats',
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
               name={
@@ -35,9 +35,9 @@ const BottomTabNavigator = (props) => {
       <BottomTab.Screen
         name="Contacts"
         component={ContactNavigator}
-        options={({route}) => ({
+        options={({ route }) => ({
           title: 'Contacts',
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
               name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'}
@@ -51,7 +51,7 @@ const BottomTabNavigator = (props) => {
         component={SettingsNavigator}
         options={{
           title: 'Settings',
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
               name={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
@@ -60,20 +60,20 @@ const BottomTabNavigator = (props) => {
         }}
       />
     </BottomTab.Navigator>
-  )
-}
+  );
+};
 
-export default BottomTabNavigator
+export default BottomTabNavigator;
 
 const getTabBarVisible = (route) => {
   const routeName = route.state
     ? route.state.routes[route.state.index].name
     : route.params
     ? route.params.screen
-    : 'Chats'
+    : 'Chats';
 
   if (routeName === 'SingleChat') {
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};

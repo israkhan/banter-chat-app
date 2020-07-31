@@ -133,11 +133,9 @@ class SingleChat extends Component {
       this.setState({
         isRecordingPlaying: status.isPlaying,
       })
-    } else {
-      if (status.error) {
+    } else if (status.error) {
         console.log('Error updating sound status: ', status.error)
       }
-    }
   }
 
   // update state recording status
@@ -167,11 +165,9 @@ class SingleChat extends Component {
         playbackInstanceDuration: status.durationMillis,
         isAudioPlaying: status.isPlaying,
       })
-    } else {
-      if (status.error) {
+    } else if (status.error) {
         console.log('Error updating playback status: ', status.error)
       }
-    }
   }
 
   // load playback instance

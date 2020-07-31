@@ -51,8 +51,7 @@ class ContactListScreen extends Component {
         sections={createSectionedData(
           this.state.search.length > 0
             ? this.props.contacts.filter((c) =>
-                c.name.toLowerCase().includes(this.state.search.toLowerCase())
-              )
+                c.name.toLowerCase().includes(this.state.search.toLowerCase()))
             : this.props.contacts
         )}
         ListHeaderComponent={() => (

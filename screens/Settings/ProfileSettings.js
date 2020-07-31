@@ -27,7 +27,7 @@ export class ProfileSettings extends React.Component {
         contentContainerStyle={styles.contentContainer}
       >
         <ListItem
-          title={'First Name'}
+          title="First Name"
           bottomDivider
           titleStyle={styles.title}
           input={{
@@ -38,7 +38,7 @@ export class ProfileSettings extends React.Component {
         />
 
         <ListItem
-          title={'Last Name'}
+          title="Last Name"
           bottomDivider
           titleStyle={styles.title}
           input={{

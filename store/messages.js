@@ -248,8 +248,7 @@ export const postMessage = (text) => async (dispatch, getState) => {
         // dispatch(notify(contactId, displayName, message))
       })
       .catch((err) =>
-        console.log('Error posting message to chats and messages', err)
-      )
+        console.log('Error posting message to chats and messages', err))
   } catch (err) {
     console.error('Error adding msg to db: ', err)
   }

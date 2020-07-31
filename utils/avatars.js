@@ -19,7 +19,7 @@ export const ChatListAvatar = (props) => {
   return (
     <View style={avatarContainer}>
       {props.avatarImgs.map((img, idx) =>
-        img !== 'undefined' ? (
+        (img !== 'undefined' ? (
           <AvatarIcon
             containerStyle={
               idx === 1 ? styles.groupChatImgWrapperTwo : chatImgWrapper
@@ -37,8 +37,7 @@ export const ChatListAvatar = (props) => {
             key={idx}
             name={props.members[idx]}
           />
-        )
-      )}
+        )))}
     </View>
   )
 }
@@ -64,7 +63,7 @@ export const SingleChatAvatar = (props) => {
   return (
     <View style={avatarContainer}>
       {props.memberImgs.map((img, idx) =>
-        img !== 'undefined' ? (
+        (img !== 'undefined' ? (
           <AvatarIcon
             containerStyle={styles.singleImgWrapper}
             src={img}
@@ -78,8 +77,7 @@ export const SingleChatAvatar = (props) => {
             key={idx}
             name={props.memberNames[idx]}
           />
-        )
-      )}
+        )))}
     </View>
   )
 }

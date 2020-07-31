@@ -44,7 +44,7 @@ export class SettingsScreen extends React.Component {
       >
         <Text style={styles.label}>Account Settings</Text>
         <ListItem
-          title={'Profile'}
+          title="Profile"
           // leftIcon={{ name: item.icon }}
           bottomDivider
           chevron
@@ -57,7 +57,7 @@ export class SettingsScreen extends React.Component {
         />
 
         <ListItem
-          title={'Notifications'}
+          title="Notifications"
           // leftIcon={{ name: item.icon }}
           bottomDivider
           chevron

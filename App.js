@@ -59,8 +59,7 @@ export default function App(props) {
 
     loadResourcesAndDataAsync();
     const _notificationSubscription = Notifications.addListener(() =>
-      Vibration.vibrate()
-    );
+      Vibration.vibrate());
   }, []);
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
