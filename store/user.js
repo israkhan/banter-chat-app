@@ -41,17 +41,21 @@ export const fetchUser = () => async (dispatch, getState) => {
   try {
     const uid = getState().firebase.auth.uid;
     const snapshot = db.ref(`users/${uid}`);
+
     snapshot.once('value', (snapshot) => {
       const user = snapshot.val();
-      // console.log("USER 0", user);
       user.id = snapshot.key;
 
       if (user.chatrooms) {
         const chatrooms = Object.keys(user.chatrooms);
         user.chatrooms = chatrooms;
       }
-      delete user.contacts;
-      // console.log("USER", user);
+      console.log('USER', user);
+      const contacts = Object.keys(user.contacts).map(
+        (key) => user.contacts[key]
+      );
+      user.contacts = contacts;
+
       dispatch(getUser(user));
       return true;
     });
