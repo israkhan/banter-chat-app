@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react'
-import {Provider} from 'react-redux'
+import React, { useEffect, useRef, useState } from 'react';
+import { Provider } from 'react-redux';
 import {
   Platform,
   StatusBar,
@@ -7,63 +7,63 @@ import {
   View,
   Vibration,
   YellowBox,
-} from 'react-native'
-import {SplashScreen, Notifications} from 'expo'
-import * as Font from 'expo-font'
-import {Ionicons} from '@expo/vector-icons'
-import {NavigationContainer} from '@react-navigation/native'
-import store from './store'
-import AppNavigation from './navigation'
-import firebase from 'firebase/app'
-import {ReactReduxFirebaseProvider} from 'react-redux-firebase'
-import useLinking from './navigation/useLinking'
+} from 'react-native';
+import { SplashScreen, Notifications } from 'expo';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import firebase from 'firebase/app';
+import store from './store';
+import AppNavigation from './navigation';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import useLinking from './navigation/useLinking';
 
 // react-redux-firebase config
 const rrfConfig = {
   userProfile: 'users',
-}
+};
 
 const rrfProps = {
   firebase,
   config: rrfConfig,
   dispatch: store.dispatch,
   // createFirestoreInstance // <- needed if using firestore
-}
+};
 
 export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false)
-  const [initialNavigationState, setInitialNavigationState] = useState()
-  const containerRef = useRef()
-  const {getInitialState} = useLinking(containerRef)
-  console.disableYellowBox = true
-  console.reportErrorsAsExceptions = false
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [initialNavigationState, setInitialNavigationState] = useState();
+  const containerRef = useRef();
+  const { getInitialState } = useLinking(containerRef);
+  console.disableYellowBox = true;
+  console.reportErrorsAsExceptions = false;
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
     const loadResourcesAndDataAsync = async () => {
       try {
-        SplashScreen.preventAutoHide()
+        SplashScreen.preventAutoHide();
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        })
+        });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
-        console.warn(e)
+        console.warn(e);
       } finally {
-        setLoadingComplete(true)
-        SplashScreen.hide()
+        setLoadingComplete(true);
+        SplashScreen.hide();
       }
-    }
+    };
 
-    loadResourcesAndDataAsync()
+    loadResourcesAndDataAsync();
     const _notificationSubscription = Notifications.addListener(() =>
       Vibration.vibrate()
-    )
-  }, [])
+    );
+  }, []);
   if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return null
+    return null;
   } else {
     return (
       <Provider store={store}>
@@ -79,7 +79,7 @@ export default function App(props) {
           </View>
         </ReactReduxFirebaseProvider>
       </Provider>
-    )
+    );
   }
 }
 
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-})
+});
