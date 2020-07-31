@@ -33,9 +33,8 @@ export class SettingsScreen extends React.Component {
     this.setState({
       value: this.props.user.language,
     });
-
-    console.log(this.props.user);
   }
+
   render() {
     return (
       <ScrollView

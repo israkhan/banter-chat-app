@@ -50,7 +50,8 @@ export const fetchUser = () => async (dispatch, getState) => {
         const chatrooms = Object.keys(user.chatrooms);
         user.chatrooms = chatrooms;
       }
-      console.log('USER', user);
+
+      // TODO: should grab more information about contact children. Ideally contacts would be an array of objects. Currently an array of strings until fetchContacts() is called.
       const contacts = Object.keys(user.contacts).map(
         (key) => user.contacts[key]
       );
@@ -234,7 +235,7 @@ export const registerForPushNotificationsAsync = () => async (
         Permissions.NOTIFICATIONS
       );
       let finalStatus = existingStatus;
-      // console.log("EXISTING STATUS OF NOTIFICATION", existingStatus);
+
       // Don't want to ask the user every time they login
       if (existingStatus !== 'granted') {
         //This command initiates notification popup
@@ -244,7 +245,6 @@ export const registerForPushNotificationsAsync = () => async (
 
         //IF permission is granted, finalStatus will === "granted"
         finalStatus = status;
-        // console.log("FINAL STATUS OF NOTIFICATION", finalStatus);
         // if finalStatus !== existingStatus --> update users/uid/notifications/status
 
         await firebase
