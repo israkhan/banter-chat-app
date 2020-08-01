@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { addNewContact, fetchUser } from '../store';
+import { addNewContact } from '../store';
 import { Colors } from '../constants';
 
 const AddContact = (props) => {
   const [email, setEmail] = useState('');
-
-  const fetchData = async () => {
-    await props.fetchUser;
-  };
-
-  useEffect(() => {
-    fetchData();
-  });
 
   const handleAdd = () => {
     props.addNewContact({ email }, props.navigation);
@@ -54,7 +46,6 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch) => ({
   addNewContact: (contact, navigation) =>
     dispatch(addNewContact(contact, navigation)),
-  fetchUser: () => dispatch(fetchUser()),
 });
 
 export default connect(mapState, mapDispatch)(AddContact);

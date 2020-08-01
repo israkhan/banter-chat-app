@@ -5,7 +5,6 @@ import { FlatList } from 'react-native';
 import { ChatListItem } from '../components';
 import {
   fetchChats,
-  fetchContacts,
   setCurrentChat,
   fetchUser,
   registerForPushNotificationsAsync,
@@ -15,7 +14,6 @@ import { db } from '../Firebase';
 class ChatListScreen extends React.Component {
   componentDidMount() {
     this.props.fetchUser();
-    this.props.fetchContacts();
     this.props.fetchChats();
 
     this.focusListener = this.props.navigation.addListener('focus', () => {
@@ -63,7 +61,6 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch) => ({
   fetchUser: () => dispatch(fetchUser()),
   fetchChats: () => dispatch(fetchChats()),
-  fetchContacts: () => dispatch(fetchContacts()),
   setCurrentChat: (chatId) => dispatch(setCurrentChat(chatId)),
   requestPushNotification: () => dispatch(registerForPushNotificationsAsync()),
 });

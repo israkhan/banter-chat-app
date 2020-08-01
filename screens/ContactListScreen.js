@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { SectionList, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
-import { fetchContacts } from '../store';
 import { ContactListItem } from '../components';
 import { createSectionedData, findIndices } from '../utils';
 
@@ -21,9 +20,6 @@ class ContactListScreen extends Component {
     this.blurUnsubscribe = this.props.navigation.addListener('blur', () => {
       this.setState({ search: '' });
     });
-
-    // TODO: remove once update to fetchUser is impelemented
-    this.props.fetchContacts();
   }
 
   componentDidUpdate() {
@@ -101,11 +97,7 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => ({
-  fetchContacts: () => dispatch(fetchContacts()),
-});
-
-export default connect(mapState, mapDispatch)(ContactListScreen);
+export default connect(mapState)(ContactListScreen);
 
 const styles = StyleSheet.create({
   sectionHeader: {

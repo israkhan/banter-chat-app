@@ -37,12 +37,10 @@ const setNotificationStatus = (status) => ({
 // ---------- THUNK CREATORS ---------- //
 
 // GET USER
-export const fetchUser = () => async (dispatch, getState) => {
+export const fetchUser = () => (dispatch, getState) => {
   try {
     const uid = getState().firebase.auth.uid;
-    const snapshot = db.ref(`users/${uid}`);
-
-    snapshot.once('value', (snapshot) => {
+    db.ref(`users/${uid}`).once('value', (snapshot) => {
       const user = snapshot.val();
       user.id = snapshot.key;
 
@@ -51,14 +49,9 @@ export const fetchUser = () => async (dispatch, getState) => {
         user.chatrooms = chatrooms;
       }
 
-      // TODO: should grab more information about contact children. Ideally contacts would be an array of objects. Currently an array of strings until fetchContacts() is called.
-      const contacts = Object.keys(user.contacts).map(
-        (key) => user.contacts[key]
-      );
-      user.contacts = contacts;
-
+      delete user.contacts;
+      dispatch(fetchContacts());
       dispatch(getUser(user));
-      return true;
     });
   } catch (err) {
     console.log('Error adding new contact: ', err);
@@ -162,6 +155,7 @@ export const fetchContacts = () => async (dispatch, getState) => {
 
     // wait for promises to resolve before dispatching getContacts
     await Promise.all(promises);
+
     dispatch(getContacts(allContacts));
   } catch (err) {
     console.log('Error fetching contacts: ', err);
