@@ -163,7 +163,7 @@ export const fetchContacts = () => async (dispatch, getState) => {
 };
 
 // ADD NEW CONTACT
-export const addNewContact = ({ email }, navigation) => async (
+export const addNewContact = ({ email, name }, navigation) => async (
   dispatch,
   getState
 ) => {

@@ -7,16 +7,32 @@ import { Colors } from '../constants';
 
 const AddContact = (props) => {
   const [email, setEmail] = useState('');
+  const [contactFirstName, setContactFirstName] = useState('');
+  const [contactLastName, setContactLastName] = useState('');
 
   const handleAdd = () => {
     props.addNewContact({ email }, props.navigation);
     setEmail('');
+    setContactFirstName('');
+    setContactLastName('');
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.form}>
         <View style={styles.input}>
+          <TextInput
+            placeholder="First Name"
+            style={styles.text}
+            value={contactFirstName}
+            onChangeText={(value) => setContactFirstName(value)}
+          />
+          <TextInput
+            placeholder="Last Name"
+            style={styles.text}
+            value={contactLastName}
+            onChangeText={(value) => setContactLastName(value)}
+          />
           <TextInput
             autoCapitalize="none"
             placeholder="Email"
