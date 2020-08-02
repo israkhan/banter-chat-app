@@ -49,6 +49,7 @@ export const fetchUser = () => (dispatch, getState) => {
         user.chatrooms = chatrooms;
       }
 
+      //remove deletion and dispatch of fetchContacts()
       delete user.contacts;
       dispatch(fetchContacts());
       dispatch(getUser(user));
@@ -183,20 +184,19 @@ export const addNewContact = ({ email, name }, navigation) => async (
 
     // if user exists, add to current user's contacts
     if (snapshot) {
+      console.log('SNAPSHOT', snapshot.val());
       let id = Object.keys(snapshot.val())[0];
       let contact = snapshot.val()[id];
       contact.id = id;
+      // contact = { [id]: { email, name }}
+
       userRef
         .child('contacts')
         .update({ [id]: snapshot.val()[id].name })
         .then(() => {
           // add contact in redux store then navigate to all contacts screen
           dispatch(addContact(contact));
-          navigation.navigate('Contact', [
-            {
-              contacts: getState().user.contacts,
-            },
-          ]);
+          navigation.navigate('Contact');
         })
         .catch((error) => dispatch(addContactError(errMsg, error)));
     } else {
