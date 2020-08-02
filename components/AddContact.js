@@ -11,7 +11,8 @@ const AddContact = (props) => {
   const [contactLastName, setContactLastName] = useState('');
 
   const handleAdd = () => {
-    props.addNewContact({ email }, props.navigation);
+    const name = `${contactFirstName} ${contactLastName}`;
+    props.addNewContact({ email, name }, props.navigation);
     setEmail('');
     setContactFirstName('');
     setContactLastName('');
