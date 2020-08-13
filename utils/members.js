@@ -9,6 +9,9 @@ export function memberIdHelper(membersArr, contacts) {
 }
 
 export function memberImgHelper(membersArr, contacts) {
+  if (!contacts) {
+    return [];
+  }
   return membersArr.reduce((arr, id) => {
     if (id !== auth.currentUser.uid) {
       const contact = contacts && contacts.find((contact) => contact.id === id);

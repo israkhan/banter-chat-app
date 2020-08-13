@@ -7,7 +7,7 @@ import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from 'firebase/app';
-import { fetchUser, putLang } from '../../store/user';
+import { putLang } from '../../store/user';
 import { Colors } from '../../constants';
 
 let languageArr = Object.keys(languages)
@@ -28,14 +28,11 @@ export class SettingsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.grabUser();
-
     this.setState({
       value: this.props.user.language,
     });
-
-    console.log(this.props.user);
   }
+
   render() {
     return (
       <ScrollView
@@ -188,7 +185,6 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  grabUser: () => dispatch(fetchUser()),
   updateLang: (val) => dispatch(putLang(val)),
 });
 

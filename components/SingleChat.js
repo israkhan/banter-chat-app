@@ -134,8 +134,8 @@ class SingleChat extends Component {
         isRecordingPlaying: status.isPlaying,
       });
     } else if (status.error) {
-        console.log('Error updating sound status: ', status.error);
-      }
+      console.error('Error updating sound status: ', status.error);
+    }
   }
 
   // update state recording status
@@ -166,8 +166,8 @@ class SingleChat extends Component {
         isAudioPlaying: status.isPlaying,
       });
     } else if (status.error) {
-        console.log('Error updating playback status: ', status.error);
-      }
+      console.error('Error updating playback status: ', status.error);
+    }
   }
 
   // load playback instance
@@ -185,7 +185,7 @@ class SingleChat extends Component {
           playbackInstanceId: null,
         });
       } catch (err) {
-        console.log('Error unloading playback instance', err);
+        console.error('Error unloading playback instance', err);
       }
     }
     // construct and load new sound instance then play audio
@@ -202,7 +202,7 @@ class SingleChat extends Component {
         });
         this.state.playbackInstance.playAsync();
       } catch (err) {
-        console.log('Error loading playback instance', err);
+        console.error('Error loading playback instance', err);
       }
     }
     this.setState({ isLoading: false });

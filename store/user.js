@@ -37,23 +37,21 @@ const setNotificationStatus = (status) => ({
 // ---------- THUNK CREATORS ---------- //
 
 // GET USER
-export const fetchUser = () => async (dispatch, getState) => {
+export const fetchUser = () => (dispatch, getState) => {
   try {
     const uid = getState().firebase.auth.uid;
-    const snapshot = db.ref(`users/${uid}`);
-    snapshot.once('value', (snapshot) => {
+    db.ref(`users/${uid}`).once('value', (snapshot) => {
       const user = snapshot.val();
-      // console.log("USER 0", user);
       user.id = snapshot.key;
 
       if (user.chatrooms) {
         const chatrooms = Object.keys(user.chatrooms);
         user.chatrooms = chatrooms;
       }
+
       delete user.contacts;
-      // console.log("USER", user);
+      dispatch(fetchContacts());
       dispatch(getUser(user));
-      return true;
     });
   } catch (err) {
     console.log('Error adding new contact: ', err);
@@ -157,6 +155,7 @@ export const fetchContacts = () => async (dispatch, getState) => {
 
     // wait for promises to resolve before dispatching getContacts
     await Promise.all(promises);
+
     dispatch(getContacts(allContacts));
   } catch (err) {
     console.log('Error fetching contacts: ', err);
@@ -230,7 +229,7 @@ export const registerForPushNotificationsAsync = () => async (
         Permissions.NOTIFICATIONS
       );
       let finalStatus = existingStatus;
-      // console.log("EXISTING STATUS OF NOTIFICATION", existingStatus);
+
       // Don't want to ask the user every time they login
       if (existingStatus !== 'granted') {
         //This command initiates notification popup
@@ -240,7 +239,6 @@ export const registerForPushNotificationsAsync = () => async (
 
         //IF permission is granted, finalStatus will === "granted"
         finalStatus = status;
-        // console.log("FINAL STATUS OF NOTIFICATION", finalStatus);
         // if finalStatus !== existingStatus --> update users/uid/notifications/status
 
         await firebase

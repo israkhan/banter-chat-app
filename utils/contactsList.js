@@ -10,6 +10,10 @@ export const getHeaders = (contacts) => {
 
 export const createSectionedData = (arrayOfContacts) => {
   let contacts = arrayOfContacts;
+
+  if (typeof contacts[0] === 'string') {
+    return [];
+  }
   const data = getHeaders(contacts);
 
   contacts.forEach((obj) => {

@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import loggerMiddleware from 'redux-logger';
+import logger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
 import chatsReducer from './chats';
@@ -17,11 +17,16 @@ const reducer = combineReducers({
 });
 
 // ---------- MIDDLEWARE ---------- //
-// const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, loggerMiddleware));
-const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));
+// const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, logger));
+const middlewares = [thunkMiddleware];
+const middlewareEnhancer = applyMiddleware(...middlewares);
+
+const enhancers = [middlewareEnhancer];
+
+const composedEnhancers = composeWithDevTools(...enhancers);
 
 // ---------- STORE ---------- //
-const store = createStore(reducer, middleware);
+const store = createStore(reducer, composedEnhancers);
 
 export default store;
 

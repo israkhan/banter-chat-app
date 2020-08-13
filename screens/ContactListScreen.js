@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { SectionList, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
-
 import { ContactListItem } from '../components';
 import { createSectionedData, findIndices } from '../utils';
 
@@ -88,9 +87,15 @@ class ContactListScreen extends Component {
   }
 }
 
-const mapState = (state) => ({
-  contacts: state.user.contacts.sort((a, b) => (a.name > b.name ? 1 : -1)),
-});
+const mapState = (state) => {
+  if (!state.user.contacts) {
+    return state.user.contacts;
+  }
+
+  return {
+    contacts: state.user.contacts.sort((a, b) => (a.name > b.name ? 1 : -1)),
+  };
+};
 
 export default connect(mapState)(ContactListScreen);
 

@@ -264,7 +264,7 @@ export const postAudio = (file, text) => async (dispatch) => {
         resolve(xhr.response);
       };
       xhr.onerror = function (err) {
-        console.log('Error creating blob: ', err);
+        console.error('Error creating blob: ', err);
         reject(new TypeError('Network request failed'));
       };
       xhr.responseType = 'blob';
@@ -281,7 +281,7 @@ export const postAudio = (file, text) => async (dispatch) => {
     dispatch(postMessage(text));
     blob.close();
   } catch (err) {
-    console.log('Error uploading audio file: ', err);
+    console.error('Error uploading audio file: ', err);
   }
 };
 

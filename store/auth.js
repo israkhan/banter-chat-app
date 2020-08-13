@@ -19,7 +19,6 @@ export const signUpWithEP = (
       const { user } = await auth.createUserWithEmailAndPassword(email, password);
 
       if (user) {
-        // console.log("NEW USER CREATED: ", email, password, user);
         await db.ref('/users/' + user.uid).set({
           email: email.toLowerCase(),
           name: `${firstName} ${lastName}`,
@@ -33,7 +32,7 @@ export const signUpWithEP = (
       // dispatch(setUserLogin(true));
     } catch (err) {
       const errMessage = err.message;
-      console.log('Signup Error: ', errMessage);
+      console.error('Signup Error: ', errMessage);
     }
   };
 };
