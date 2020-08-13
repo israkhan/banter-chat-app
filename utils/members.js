@@ -8,6 +8,7 @@ export function memberIdHelper(membersArr, contacts) {
   return membersArr.filter((id) => id !== auth.currentUser.uid);
 }
 
+///TODO: test this after add-contact-name
 export function memberImgHelper(membersArr, contacts) {
   if (!contacts) {
     return [];
