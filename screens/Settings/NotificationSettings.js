@@ -1,9 +1,9 @@
-import * as React from 'react'
-import {StyleSheet, Text, View} from 'react-native'
-import {ScrollView} from 'react-native-gesture-handler'
-import {ListItem} from 'react-native-elements'
+import * as React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { ListItem } from 'react-native-elements';
 
-import {Colors} from '../../constants'
+import { Colors } from '../../constants';
 
 // let languageArr = Object.keys(languages)
 //   .map(function (key) {
@@ -13,12 +13,12 @@ import {Colors} from '../../constants'
 
 export default class Notification extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       sound: 'Note',
       pushNotify: true,
       preview: true,
-    }
+    };
   }
 
   render() {
@@ -32,7 +32,7 @@ export default class Notification extends React.Component {
             switch={{
               value: this.state.pushNotify,
               onValueChange: (value) => {
-                this.setState({pushNotify: value})
+                this.setState({ pushNotify: value });
               },
             }}
             containerStyle={styles.listItem}
@@ -53,14 +53,14 @@ export default class Notification extends React.Component {
             switch={{
               value: this.state.preview,
               onValueChange: (value) => {
-                this.setState({preview: value})
+                this.setState({ preview: value });
               },
             }}
             containerStyle={styles.listItem}
           />
         </View>
       </ScrollView>
-    )
+    );
   }
 }
 
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   topRow: {
     paddingTop: 26,
   },
-})
+});

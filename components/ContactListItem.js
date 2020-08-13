@@ -1,21 +1,21 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {StyleSheet, Text, TouchableHighlight, View} from 'react-native'
+import React from 'react';
+import { connect } from 'react-redux';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-import {fetchCurrentChatId} from '../store'
-import {ContactListAvatar} from '../utils'
-import {Colors} from '../constants'
+import { fetchCurrentChatId } from '../store';
+import { ContactListAvatar } from '../utils';
+import { Colors } from '../constants';
 
 const ContactListItem = (props) => {
   const goToSingleChat = async () => {
     // set current chatroom in redux
     await props.fetchCurrentChatId(
       // {contactId: props.id, name: props.name},
-      {uid: props.uid, userName: props.userName},
+      { uid: props.uid, userName: props.userName },
       props.navigation,
-      [{contactId: props.id, contactName: props.name}]
-    )
-  }
+      [{ contactId: props.id, contactName: props.name }]
+    );
+  };
   return (
     <TouchableHighlight onPress={goToSingleChat}>
       <View style={styles.container}>
@@ -35,20 +35,20 @@ const ContactListItem = (props) => {
         </View>
       </View>
     </TouchableHighlight>
-  )
-}
+  );
+};
 
 const mapState = (state) => ({
   uid: state.firebase.auth.uid,
   userName: state.firebase.auth.displayName,
-})
+});
 
 const mapDispatch = (dispatch) => ({
   fetchCurrentChatId: (user, navigation, contacts) =>
     dispatch(fetchCurrentChatId(user, navigation, contacts)),
-})
+});
 
-export default connect(mapState, mapDispatch)(ContactListItem)
+export default connect(mapState, mapDispatch)(ContactListItem);
 
 const styles = StyleSheet.create({
   container: {
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
   contactInfo: {
     fontSize: 13,
   },
-})
+});

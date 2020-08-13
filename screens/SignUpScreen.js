@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 import {
   Dimensions,
   KeyboardAvoidingView,
@@ -9,24 +9,24 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native'
-import {connect} from 'react-redux'
-import RNPickerSelect from 'react-native-picker-select'
+} from 'react-native';
+import { connect } from 'react-redux';
+import RNPickerSelect from 'react-native-picker-select';
 
-import {signUpWithEP} from '../store/auth'
-import {registerForPushNotificationsAsync} from '../store/user'
-import languages from '../languages.json'
-import {Colors} from '../constants'
+import { signUpWithEP } from '../store/auth';
+import { registerForPushNotificationsAsync } from '../store/user';
+import languages from '../languages.json';
+import { Colors } from '../constants';
 
 let languageArr = Object.keys(languages)
   .filter((k) => k !== 'auto')
   .map(function (key) {
-    return {label: languages[key], value: languages[key]}
-  })
+    return { label: languages[key], value: languages[key] };
+  });
 
 class SignUpScreen extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       email: '',
       password: '',
@@ -35,23 +35,23 @@ class SignUpScreen extends Component {
       language: '',
       loading: false,
       value: '',
-    }
-    this.inputRefs = {}
+    };
+    this.inputRefs = {};
 
-    this.handleEmailChange = this.handleEmailChange.bind(this)
-    this.handlePasswordChange = this.handlePasswordChange.bind(this)
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
   handleEmailChange(evt) {
-    this.setState({email: evt.target.value})
+    this.setState({ email: evt.target.value });
   }
 
   handlePasswordChange(evt) {
-    this.setState({password: evt.target.value})
+    this.setState({ password: evt.target.value });
   }
 
   render() {
-    const {email, password, firstName, lastName, language, loading} = this.state
+    const { email, password, firstName, lastName, language, loading } = this.state;
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
@@ -68,7 +68,7 @@ class SignUpScreen extends Component {
           type="First Name"
           value={firstName}
           placeholder="First Name"
-          onChangeText={(firstName) => this.setState({firstName})}
+          onChangeText={(firstName) => this.setState({ firstName })}
           autoCorrect={false}
         />
 
@@ -77,29 +77,29 @@ class SignUpScreen extends Component {
           type="Last Name"
           value={lastName}
           placeholder="Last Name"
-          onChangeText={(lastName) => this.setState({lastName})}
+          onChangeText={(lastName) => this.setState({ lastName })}
           autoCorrect={false}
         />
 
         <RNPickerSelect
-          placeholder={{label: 'Select language...', value: null}}
+          placeholder={{ label: 'Select language...', value: null }}
           placeholderTextColor="black"
           items={languageArr}
           onValueChange={(value) => {
             this.setState({
               language: value,
-            })
+            });
           }}
           onUpArrow={() => {
-            this.inputRefs.name.focus()
+            this.inputRefs.name.focus();
           }}
           onDownArrow={() => {
-            this.inputRefs.picker2.togglePicker()
+            this.inputRefs.picker2.togglePicker();
           }}
-          style={{...pickerSelectStyles}}
+          style={{ ...pickerSelectStyles }}
           value={this.state.language}
           ref={(el) => {
-            this.inputRefs.picker = el
+            this.inputRefs.picker = el;
           }}
           hideIcon={true}
         />
@@ -109,7 +109,7 @@ class SignUpScreen extends Component {
           value={email}
           placeholder="Email"
           autoCapitalize="none"
-          onChangeText={(email) => this.setState({email})}
+          onChangeText={(email) => this.setState({ email })}
           autoCorrect={false}
         />
         <TextInput
@@ -118,7 +118,7 @@ class SignUpScreen extends Component {
           value={password}
           placeholder="Password"
           autoCapitalize="none"
-          onChangeText={(password) => this.setState({password})}
+          onChangeText={(password) => this.setState({ password })}
           autoCorrect={false}
           secureTextEntry={true}
         />
@@ -132,7 +132,7 @@ class SignUpScreen extends Component {
               lastName,
               language,
               loading
-            )
+            );
             // this.props.requestPushNotification();
           }}
         >
@@ -146,11 +146,11 @@ class SignUpScreen extends Component {
           <Text style={styles.buttonText}>Login with existing account</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
-    )
+    );
   }
 }
 
-const {width: WIDTH} = Dimensions.get('window')
+const { width: WIDTH } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     backgroundColor: 'white',
   },
-})
+});
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
@@ -216,16 +216,16 @@ const pickerSelectStyles = StyleSheet.create({
     backgroundColor: 'white',
     color: 'black',
   },
-})
+});
 
 const mapState = (state) => ({
   user: state.user,
-})
+});
 
 const mapDispatch = (dispatch) => ({
   signup: (email, password, firstName, lastName, language) =>
     dispatch(signUpWithEP(email, password, firstName, lastName, language)),
   requestPushNotification: () => dispatch(registerForPushNotificationsAsync()),
-})
+});
 
-export default connect(mapState, mapDispatch)(SignUpScreen)
+export default connect(mapState, mapDispatch)(SignUpScreen);

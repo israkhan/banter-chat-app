@@ -1,16 +1,16 @@
-import * as React from 'react'
-import {createStackNavigator} from '@react-navigation/stack'
+import * as React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import {AddContactScreen, SingleChatScreen, ContactListScreen} from '../screens'
+import { AddContactScreen, SingleChatScreen, ContactListScreen } from '../screens';
 import {
   ContactsHeaderRight,
   SingleChatHeaderCenter,
   SingleChatHeaderLeft,
-} from '../components'
+} from '../components';
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 
-export default function ContactNavigator({navigation, route}) {
+export default function ContactNavigator({ navigation, route }) {
   return (
     <Stack.Navigator navigation={navigation} initialRouteName="Contacts">
       <Stack.Screen
@@ -45,9 +45,9 @@ export default function ContactNavigator({navigation, route}) {
               back="Contact"
             />
           ),
-          headerStyle: {height: 130},
+          headerStyle: { height: 130 },
         }}
       />
     </Stack.Navigator>
-  )
+  );
 }

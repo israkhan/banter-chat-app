@@ -1,25 +1,25 @@
-import React, {useState, useEffect} from 'react'
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native'
-import {connect} from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { connect } from 'react-redux';
 
-import {addNewContact, fetchUser} from '../store'
-import {Colors} from '../constants'
+import { addNewContact, fetchUser } from '../store';
+import { Colors } from '../constants';
 
 const AddContact = (props) => {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('');
 
   const fetchData = async () => {
-    await props.fetchUser
-  }
+    await props.fetchUser;
+  };
 
   useEffect(() => {
-    fetchData()
-  })
+    fetchData();
+  });
 
   const handleAdd = () => {
-    props.addNewContact({email}, props.navigation)
-    setEmail('')
-  }
+    props.addNewContact({ email }, props.navigation);
+    setEmail('');
+  };
 
   return (
     <View style={styles.container}>
@@ -37,27 +37,27 @@ const AddContact = (props) => {
       <View style={styles.buttonTextWrapper}>
         <Button title="Add Contact" style={styles.button} onPress={handleAdd} />
         <View style={styles.buttonTextWrapper}>
-          <Text style={[styles.text, {color: 'red'}]}>
+          <Text style={[styles.text, { color: 'red' }]}>
             {props.addContactError}
           </Text>
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const mapState = (state) => ({
   user: state.user,
   addContactError: state.user.addContactError,
-})
+});
 
 const mapDispatch = (dispatch) => ({
   addNewContact: (contact, navigation) =>
     dispatch(addNewContact(contact, navigation)),
   fetchUser: () => dispatch(fetchUser()),
-})
+});
 
-export default connect(mapState, mapDispatch)(AddContact)
+export default connect(mapState, mapDispatch)(AddContact);
 
 const styles = StyleSheet.create({
   container: {
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: 'center',
   },
-})
+});

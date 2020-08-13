@@ -19,6 +19,10 @@
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error"
+    "jest/valid-expect": "error",
+    "no-use-before-define": "off",
+    "quotes": "error",
+    "object-curly-spacing": ["error", "always"],
+    "semi": ["error", "always"]
   }
 }

@@ -1,25 +1,25 @@
-import React, {Component} from 'react'
-import {StyleSheet, Text, Button, SectionList, View} from 'react-native'
-import {ListItem} from 'react-native-elements'
-import {connect} from 'react-redux'
-import {createSectionedData, findIndices} from '../../utils'
-import {fetchCurrentChatId} from '../../store/chats'
+import React, { Component } from 'react';
+import { StyleSheet, Text, Button, SectionList, View } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { createSectionedData, findIndices } from '../../utils';
+import { fetchCurrentChatId } from '../../store/chats';
 
 export class NewGroupChat extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       data: [],
-    }
-    this.checkItem = this.checkItem.bind(this)
-    this.getSelected = this.getSelected.bind(this)
-    this.createGroup = this.createGroup.bind(this)
+    };
+    this.checkItem = this.checkItem.bind(this);
+    this.getSelected = this.getSelected.bind(this);
+    this.createGroup = this.createGroup.bind(this);
   }
 
   componentDidMount() {
     // Transforming contacts data into correct format for SectionList
-    const data = createSectionedData(this.props.contacts)
-    this.setState({data})
+    const data = createSectionedData(this.props.contacts);
+    this.setState({ data });
 
     // Overriding header buttons
     this.props.navigation.setOptions({
@@ -32,56 +32,56 @@ export class NewGroupChat extends Component {
           onPress={() => this.props.navigation.navigate('Chat')}
         />
       ),
-    })
+    });
   }
 
   // Return current state of checkbox
   checkItem(itemName, itemId) {
-    const {sectionIndex, nameIndex} = findIndices(
+    const { sectionIndex, nameIndex } = findIndices(
       itemName,
       itemId,
       this.state.data
-    )
+    );
 
-    return this.state.data[sectionIndex].data[nameIndex].checked
+    return this.state.data[sectionIndex].data[nameIndex].checked;
   }
 
   // Handling selection of checkbox
   handlePress(itemName, itemId) {
-    const data = this.state.data
-    const {sectionIndex, nameIndex} = findIndices(itemName, itemId, data)
+    const data = this.state.data;
+    const { sectionIndex, nameIndex } = findIndices(itemName, itemId, data);
 
     data[sectionIndex].data[nameIndex].checked = !data[sectionIndex].data[
       nameIndex
-    ].checked
+    ].checked;
 
-    this.setState({data})
+    this.setState({ data });
   }
 
   // Getting all selecte checkboxes
   getSelected() {
-    let selected = []
+    let selected = [];
 
     this.state.data.forEach((section) => {
       section.data.forEach((contact) => {
         if (contact.checked === true) {
-          selected.push({contactId: contact.id, contactName: contact.name})
+          selected.push({ contactId: contact.id, contactName: contact.name });
         }
-      })
-    })
+      });
+    });
 
-    return selected
+    return selected;
   }
 
   async createGroup() {
-    const selected = this.getSelected(this.state.data)
+    const selected = this.getSelected(this.state.data);
 
     // set current chatroom in redux
     await this.props.fetchCurrentChatId(
-      {uid: this.props.uid, userName: this.props.userName},
+      { uid: this.props.uid, userName: this.props.userName },
       this.props.navigation,
       selected
-    )
+    );
   }
 
   render() {
@@ -89,7 +89,7 @@ export class NewGroupChat extends Component {
       <View style={styles.container}>
         <SectionList
           sections={this.state.data}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <ListItem
               title={item.name}
               bottomDivider
@@ -99,14 +99,14 @@ export class NewGroupChat extends Component {
               }}
             />
           )}
-          renderSectionHeader={({section}) => (
+          renderSectionHeader={({ section }) => (
             <Text style={styles.sectionHeader}>{section.title}</Text>
           )}
           keyExtractor={(item, index) => index}
           stickySectionHeadersEnabled
         />
       </View>
-    )
+    );
   }
 }
 
@@ -124,17 +124,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'rgba(247,247,247,1.0)',
   },
-})
+});
 
 const mapState = (state) => ({
   contacts: state.user.contacts,
   uid: state.firebase.auth.uid,
   userName: state.firebase.auth.displayName,
-})
+});
 
 const mapDispatch = (dispatch) => ({
   fetchCurrentChatId: (user, navigation, contacts) =>
     dispatch(fetchCurrentChatId(user, navigation, contacts)),
-})
+});
 
-export default connect(mapState, mapDispatch)(NewGroupChat)
+export default connect(mapState, mapDispatch)(NewGroupChat);

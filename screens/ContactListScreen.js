@@ -1,48 +1,48 @@
-import React, {Component} from 'react'
-import {SectionList, StyleSheet, Text} from 'react-native'
-import {connect} from 'react-redux'
-import {SearchBar} from 'react-native-elements'
+import React, { Component } from 'react';
+import { SectionList, StyleSheet, Text } from 'react-native';
+import { connect } from 'react-redux';
+import { SearchBar } from 'react-native-elements';
 
-import {ContactListItem} from '../components'
-import {createSectionedData, findIndices} from '../utils'
+import { ContactListItem } from '../components';
+import { createSectionedData, findIndices } from '../utils';
 
 class ContactListScreen extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       data: [],
       search: '',
-    }
-    this.checkItem = this.checkItem.bind(this)
+    };
+    this.checkItem = this.checkItem.bind(this);
   }
 
   componentDidMount() {
     // reset search when not in focus
     this.blurUnsubscribe = this.props.navigation.addListener('blur', () => {
-      this.setState({search: ''})
-    })
+      this.setState({ search: '' });
+    });
   }
 
   componentDidUpdate() {
-    this.state.search.length > 0 ? this.search.focus() : this.search.blur()
+    this.state.search.length > 0 ? this.search.focus() : this.search.blur();
   }
 
   componentWillUnmount() {
-    this.blurUnsubscribe()
+    this.blurUnsubscribe();
   }
 
   checkItem(itemName, itemId) {
-    const {sectionIndex, nameIndex} = findIndices(
+    const { sectionIndex, nameIndex } = findIndices(
       itemName,
       itemId,
       this.state.data
-    )
+    );
 
-    return this.state.data[sectionIndex].data[nameIndex].checked
+    return this.state.data[sectionIndex].data[nameIndex].checked;
   }
 
   updateSearch(search) {
-    this.setState({search})
+    this.setState({ search });
   }
 
   render() {
@@ -69,30 +69,30 @@ class ContactListScreen extends Component {
               containerStyle: styles.iconContainerStyle,
             }}
             onChangeText={this.updateSearch.bind(this)}
-            onClear={() => this.setState({search: ''})}
+            onClear={() => this.setState({ search: '' })}
             showCancel={true}
             autoCorrect={false}
           />
         )}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <ContactListItem navigation={this.props.navigation} {...item} />
         )}
         keyExtractor={(item, index) => index.toString()}
-        renderSectionHeader={({section}) => (
+        renderSectionHeader={({ section }) => (
           <Text style={styles.sectionHeader}>{section.title}</Text>
         )}
         keyboardShouldPersistTaps="always"
         stickySectionHeadersEnabled
       />
-    )
+    );
   }
 }
 
 const mapState = (state) => ({
   contacts: state.user.contacts.sort((a, b) => (a.name > b.name ? 1 : -1)),
-})
+});
 
-export default connect(mapState)(ContactListScreen)
+export default connect(mapState)(ContactListScreen);
 
 const styles = StyleSheet.create({
   sectionHeader: {
@@ -115,6 +115,6 @@ const styles = StyleSheet.create({
   inputStyle: {
     backgroundColor: '#e7e7e7',
   },
-  clearIconStyle: {margin: 20},
+  clearIconStyle: { margin: 20 },
   // clearContainerStyle: {margin: -10},
-})
+});

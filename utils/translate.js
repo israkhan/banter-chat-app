@@ -1,15 +1,15 @@
-import React, {Fragment} from 'react'
-import {StyleSheet, Text, TouchableOpacity} from 'react-native'
+import React, { Fragment } from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import languages from '../languages.json'
+import languages from '../languages.json';
 
 export const getLangKey = (lang) => {
-  return Object.keys(languages).find((key) => languages[key] === lang)
-}
+  return Object.keys(languages).find((key) => languages[key] === lang);
+};
 
 export const getLangValue = (langKey) => {
-  return languages[langKey]
-}
+  return languages[langKey];
+};
 
 export const renderTranslation = (params, thisObj) => {
   return (
@@ -29,17 +29,17 @@ export const renderTranslation = (params, thisObj) => {
                           .originalsShown[params.currentMessage._id],
                       },
                     },
-                  }
-                })
+                  };
+                });
               } else {
                 thisObj.setState((prevState) => {
                   return {
                     originalsShown: {
                       ...prevState.originalsShown,
-                      ...{[params.currentMessage._id]: true},
+                      ...{ [params.currentMessage._id]: true },
                     },
-                  }
-                })
+                  };
+                });
               }
             }}
           >
@@ -55,8 +55,8 @@ export const renderTranslation = (params, thisObj) => {
           : 'Not Translated'}
       </Text>
     </Fragment>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   messageBox: {
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
     paddingTop: 1,
     paddingBottom: 5,
   },
-})
+});

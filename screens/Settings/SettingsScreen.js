@@ -1,40 +1,40 @@
-import * as React from 'react'
-import {Text, StyleSheet, Dimensions} from 'react-native'
-import {TouchableOpacity} from 'react-native-gesture-handler'
-import languages from '../../languages.json'
-import {ScrollView} from 'react-native-gesture-handler'
-import {ListItem} from 'react-native-elements'
-import {connect} from 'react-redux'
-import RNPickerSelect from 'react-native-picker-select'
-import firebase from 'firebase/app'
-import {fetchUser, putLang} from '../../store/user'
-import {Colors} from '../../constants'
+import * as React from 'react';
+import { Text, StyleSheet, Dimensions } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import languages from '../../languages.json';
+import { ScrollView } from 'react-native-gesture-handler';
+import { ListItem } from 'react-native-elements';
+import { connect } from 'react-redux';
+import RNPickerSelect from 'react-native-picker-select';
+import firebase from 'firebase/app';
+import { fetchUser, putLang } from '../../store/user';
+import { Colors } from '../../constants';
 
 let languageArr = Object.keys(languages)
   .filter((k) => k !== 'auto')
   .map(function (key) {
-    return {label: languages[key], value: languages[key]}
-  })
+    return { label: languages[key], value: languages[key] };
+  });
 
 export class SettingsScreen extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.inputRefs = {}
+    this.inputRefs = {};
 
     this.state = {
       value: '',
-    }
+    };
   }
 
   componentDidMount() {
-    this.props.grabUser()
+    this.props.grabUser();
 
     this.setState({
       value: this.props.user.language,
-    })
+    });
 
-    console.log(this.props.user)
+    console.log(this.props.user);
   }
   render() {
     return (
@@ -71,24 +71,24 @@ export class SettingsScreen extends React.Component {
 
         <Text style={styles.label}>Default Language</Text>
         <RNPickerSelect
-          placeholder={{label: this.state.value, value: this.state.value}}
+          placeholder={{ label: this.state.value, value: this.state.value }}
           items={languageArr}
           onValueChange={(value) => {
             this.setState({
               value: value,
-            })
+            });
           }}
           onDonePress={() => this.props.updateLang(this.state.value)}
           onUpArrow={() => {
-            this.inputRefs.name.focus()
+            this.inputRefs.name.focus();
           }}
           onDownArrow={() => {
-            this.inputRefs.picker2.togglePicker()
+            this.inputRefs.picker2.togglePicker();
           }}
-          style={{...pickerSelectStyles}}
+          style={{ ...pickerSelectStyles }}
           value={this.state.value}
           ref={(el) => {
-            this.inputRefs.picker = el
+            this.inputRefs.picker = el;
           }}
           hideIcon={true}
         />
@@ -96,7 +96,7 @@ export class SettingsScreen extends React.Component {
         <TouchableOpacity
           title="Log Out"
           onPress={() => {
-            firebase.auth().signOut()
+            firebase.auth().signOut();
           }}
           large
           style={styles.button}
@@ -113,10 +113,10 @@ export class SettingsScreen extends React.Component {
           style={styles.button}
         /> */}
       </ScrollView>
-    )
+    );
   }
 }
-const {width: WIDTH} = Dimensions.get('window')
+const { width: WIDTH } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   buttonBackground: {
     backgroundColor: Colors.tintColor,
   },
-})
+});
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
@@ -181,15 +181,15 @@ const pickerSelectStyles = StyleSheet.create({
   placeholder: {
     color: 'black',
   },
-})
+});
 
 const mapState = (state) => ({
   user: state.user,
-})
+});
 
 const mapDispatch = (dispatch) => ({
   grabUser: () => dispatch(fetchUser()),
   updateLang: (val) => dispatch(putLang(val)),
-})
+});
 
-export default connect(mapState, mapDispatch)(SettingsScreen)
+export default connect(mapState, mapDispatch)(SettingsScreen);

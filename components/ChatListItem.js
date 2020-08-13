@@ -1,29 +1,29 @@
-import React from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import {memberNameHelper, memberImgHelper, ChatListAvatar} from '../utils'
-import {Colors} from '../constants'
+import { memberNameHelper, memberImgHelper, ChatListAvatar } from '../utils';
+import { Colors } from '../constants';
 
 export default function ChatListItem(props) {
-  let members = props.item.members
-  delete members[props.userId]
+  let members = props.item.members;
+  delete members[props.userId];
 
-  members = memberNameHelper(Object.values(members))
+  members = memberNameHelper(Object.values(members));
   const avatarImgs = memberImgHelper(
     Object.keys(props.item.members),
     props.contacts
-  ).slice(0, 2)
+  ).slice(0, 2);
   const goToSingleChat = (chatId) => {
     // set current chatroom in redux
-    props.setCurrentChat(chatId)
+    props.setCurrentChat(chatId);
     // navigate to single chat page
     props.navigation.navigate('SingleChat', [
       {
         contactId: props.id,
         contactName: props.name,
       },
-    ])
-  }
+    ]);
+  };
   return (
     <TouchableOpacity onPress={() => goToSingleChat(props.item.id)}>
       <View style={styles.itemView}>
@@ -44,7 +44,7 @@ export default function ChatListItem(props) {
         </View>
       </View>
     </TouchableOpacity>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: 10,
   },
-})
+});
